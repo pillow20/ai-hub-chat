@@ -3,7 +3,11 @@ name: Deploy Flutter Web to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - main  # <-- Если твоя ветка называется master, поменяй здесь на master
+
+# ЭТОТ БЛОК КРИТИЧЕСКИ ВАЖЕН: он дает права на запись в репозиторий и исправляет ошибку 128
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
@@ -21,6 +25,8 @@ jobs:
         run: flutter pub get
 
       - name: Build Web
+        # ВАЖНО: Замени 'ai-hub-chat' на ТОЧНОЕ имя твоего репозитория (маленькими буквами)!
+        # Например, если репозиторий называется my-bot, пиши --base-href="/my-bot/"
         run: flutter build web --release --base-href="/ai-hub-chat/"
 
       - name: Deploy to GitHub Pages
