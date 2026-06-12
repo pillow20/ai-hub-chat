@@ -337,6 +337,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   // Отображение одного сообщения в чате (пузырек)
   // Для пользователя и ассистента используются разные стили и выравнивание
+  // ДОБАВЛЕНА: Кнопка копирования всего ответа модели
   Widget _buildChatBubble(Map<String, String> msg) {
     final isUser = msg['role'] == 'user';
     return Padding(
@@ -346,16 +347,36 @@ class _ChatScreenState extends State<ChatScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (!isUser) ...[
-            Container(
-              margin: const EdgeInsets.only(top: 4, right: 8),
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: const Color(0xFF161618),
-                shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFF242427)),
-              ),
-              child: const Icon(Icons.smart_toy_outlined, size: 16, color: Color(0xFF9D4EDD)),
+            // Колонка с иконкой робота и кнопкой копирования
+            Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF161618),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: const Color(0xFF242427)),
+                  ),
+                  child: const Icon(Icons.smart_toy_outlined, size: 16, color: Color(0xFF9D4EDD)),
+                ),
+                // Кнопка копирования всего ответа
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF161618),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: const Color(0xFF242427)),
+                  ),
+                  child: InkWell(
+                    onTap: () => _copyToClipboard(msg['content']!, context),
+                    borderRadius: BorderRadius.circular(20),
+                    child: const Icon(Icons.copy_rounded, size: 14, color: Colors.grey),
+                  ),
+                ),
+              ],
             ),
+            const SizedBox(width: 8),
           ],
           Flexible(
             child: Container(
@@ -526,7 +547,7 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Icon(Icons.check_circle_outline, color: Colors.green, size: 20),
             SizedBox(width: 10),
-            Text('Код скопирован в буфер обмена', style: TextStyle(color: Colors.white70)),
+            Text('Скопировано в буфер обмена', style: TextStyle(color: Colors.white70)),
           ],
         ),
       ),
