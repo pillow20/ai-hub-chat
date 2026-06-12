@@ -1,4 +1,3 @@
-// Основной экран чата: интерфейс, отправка сообщений, обработка ответов
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -313,7 +312,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  // === ОБНОВЛЕННЫЙ МЕТОД С КНОПКОЙ КОПИРОВАНИЯ ВНУТРИ ПУЗЫРЯ ===
+  // === ОБНОВЛЕННЫЙ МЕТОД: КНОПКА В ЛЕВОМ НИЖНЕМ УГЛУ, ТОЛЬКО ИКОНКА ===
   Widget _buildChatBubble(Map<String, String> msg) {
     final isUser = msg['role'] == 'user';
     return Padding(
@@ -362,32 +361,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // КНОПКА КОПИРОВАНИЯ (справа сверху внутри пузыря)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            InkWell(
-                              onTap: () => _copyToClipboard(msg['content']!, context),
-                              borderRadius: BorderRadius.circular(6),
-                              child: Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.05),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: const Row(
-                                  children: [
-                                    Icon(Icons.copy_rounded, size: 14, color: Colors.white70),
-                                    SizedBox(width: 4),
-                                    Text('Копировать', style: TextStyle(fontSize: 12, color: Colors.white70)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        // Текст ответа
+                        // 1. Текст ответа (сверху)
                         MarkdownBody(
                           data: msg['content']!,
                           selectable: true,
@@ -419,6 +393,25 @@ class _ChatScreenState extends State<ChatScreen> {
                             ),
                             blockquote: const TextStyle(color: Colors.yellow, fontStyle: FontStyle.italic),
                           ),
+                        ),
+                        const SizedBox(height: 8),
+                        // 2. КНОПКА КОПИРОВАНИЯ (левый нижний угол, только иконка)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: () => _copyToClipboard(msg['content']!, context),
+                              borderRadius: BorderRadius.circular(6),
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.05),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Icon(Icons.copy_rounded, size: 16, color: Colors.white54),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
