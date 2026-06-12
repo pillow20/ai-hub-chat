@@ -93020,7 +93020,7 @@ r.F$=0
 s.r.l()
 s.gFJ().l()
 s.aD()},
-M(a){var s=this,r=null,q=t.p,p=A.km(A.b([A.f7(B.HB,B.v,r,r,new A.cM(A.aE(38,B.aQ.D()>>>16&255,B.aQ.D()>>>8&255,B.aQ.D()&255),r,r,A.hy(10),r,r,B.am),r,r,B.h9,r),B.RJ,B.Xq],q),B.ae,B.a5,B.aG,r),o=A.f7(r,B.v,B.cL,r,r,1,r,r,r),n=s.a7E(),m=s.as.length
+M(a){var s=this,r=null,q=t.p,p=A.km(A.b([A.f7(B.HB,B.v,r,r,new A.cM(A.aE(38,B.aQ.D()>>>16&255,B.aQ.D()>>>8&255,B.aQ.D()&255),r,r,A.hy(10),r,r,B.am),r,r,B.h9,r),B.RJ,B.Xp],q),B.ae,B.a5,B.aG,r),o=A.f7(r,B.v,B.cL,r,r,1,r,r,r),n=s.a7E(),m=s.as.length
 if(m===0)m=A.kX(A.ig(A.b([A.a9o(B.Hk,A.aE(102,B.bp.D()>>>16&255,B.bp.D()>>>8&255,B.bp.D()&255),r,48),B.zI,A.e9("\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u0434\u0438\u0430\u043b\u043e\u0433 \u0441 \u043d\u0435\u0439\u0440\u043e\u0441\u0435\u0442\u044c\u044e...",r,r,r,A.iF(r,r,A.aE(153,B.bp.D()>>>16&255,B.bp.D()>>>8&255,B.bp.D()&255),r,r,r,r,r,r,r,r,15,r,r,r,r,r,!0,r,r,r,r,r,r,r,r),r,r)],q),B.ae,B.uB,B.aG),r,r)
 else m=new A.AN(new A.ak9(new A.aon(s),m,!0,!0,!0,r),B.GE,B.aO,!1,s.r,r,r,!1,r,r,m,B.au,r,r,B.O,B.ax,r)
 m=A.b([n,A.zL(m)],q)
@@ -97246,8 +97246,8 @@ B.DN=new A.yy(null,null,null,null,null,null)
 B.F2=new A.x(0.30196078431372547,1,1,1,B.e)
 B.q=new A.fY(400)
 B.Vp=new A.p(!0,B.F2,null,null,null,null,11,B.q,null,0.6,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.Xp=new A.hi("\u0420\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u0447\u0438\u043a: \u0410\u043b\u0435\u043a\u0441\u0435\u0439 \u0410\u0433\u0430\u0444\u043e\u043d\u043e\u0432",null,B.Vp,null,null,null,null,null,null,null)
-B.DO=new A.mC(B.a9,null,null,B.Xp,null)
+B.Xq=new A.hi("\ud83d\udd25\ud83d\udd25\ud83d\udd25 \u0422\u0415\u0421\u0422 \u0414\u0415\u041f\u041b\u041e\u042f \u0420\u0410\u0411\u041e\u0422\u0410\u0415\u0422 \ud83d\udd25\ud83d\udd25\ud83d\udd25",null,B.Vp,null,null,null,null,null,null,null)
+B.DO=new A.mC(B.a9,null,null,B.Xq,null)
 B.DP=new A.yA(null)
 B.DQ=new A.yC(null,null,null,null,null,null,null,null,null)
 B.dq=new A.th(0,"none")
@@ -99836,7 +99836,7 @@ B.Wh=new A.p(!0,B.l,null,".AppleSystemUIFont",null,null,null,null,null,null,null
 B.T9=new A.p(!0,B.l,null,".AppleSystemUIFont",null,null,null,null,null,null,null,null,null,null,null,null,null,B.h,null,null,null,"blackRedwoodCity labelSmall",null,null,null,null)
 B.Xn=new A.dW(B.V5,B.TU,B.V6,B.VB,B.Ty,B.TG,B.Ug,B.Vu,B.Uu,B.W_,B.T2,B.Tk,B.VX,B.Wh,B.T9)
 B.V0=new A.p(!0,null,null,null,null,null,18,B.hm,null,0.3,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.Xq=new A.hi("AI HUB Chat",null,B.V0,null,null,null,null,null,null,null)
+B.Xp=new A.hi("AI HUB Chat",null,B.V0,null,null,null,null,null,null,null)
 B.UC=new A.p(!0,B.bp,null,null,null,null,12,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.Xt=new A.hi("  \u041a\u0440\u0435\u0430\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u044c",null,B.UC,null,null,null,null,null,null,null)
 B.U4=new A.p(!0,B.k,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
