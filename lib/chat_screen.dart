@@ -313,6 +313,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  // === ОБНОВЛЕННЫЙ МЕТОД С КНОПКОЙ КОПИРОВАНИЯ ВНУТРИ ПУЗЫРЯ ===
   Widget _buildChatBubble(Map<String, String> msg) {
     final isUser = msg['role'] == 'user';
     return Padding(
@@ -361,34 +362,32 @@ class _ChatScreenState extends State<ChatScreen> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // КНОПКА КОПИРОВАНИЯ (справа сверху внутри пузыря)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Material(
-                              color: Colors.transparent,
+                            InkWell(
+                              onTap: () => _copyToClipboard(msg['content']!, context),
                               borderRadius: BorderRadius.circular(6),
-                              child: InkWell(
-                                onTap: () => _copyToClipboard(msg['content']!, context),
-                                borderRadius: BorderRadius.circular(6),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.08),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: const Row(
-                                    children: [
-                                      Icon(Icons.copy_rounded, size: 12, color: Colors.white70),
-                                      SizedBox(width: 4),
-                                      Text('Копировать', style: TextStyle(fontSize: 11, color: Colors.white70)),
-                                    ],
-                                  ),
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.05),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.copy_rounded, size: 14, color: Colors.white70),
+                                    SizedBox(width: 4),
+                                    Text('Копировать', style: TextStyle(fontSize: 12, color: Colors.white70)),
+                                  ],
                                 ),
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 8),
+                        // Текст ответа
                         MarkdownBody(
                           data: msg['content']!,
                           selectable: true,
