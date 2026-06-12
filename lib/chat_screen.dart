@@ -474,7 +474,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       child: const Center(
         child: Text(
-          'Разработчик: Алексей Агафонов',
+          '🔥🔥🔥 ТЕСТ ДЕПЛОЯ РАБОТАЕТ 🔥🔥🔥',
           style: TextStyle(color: Colors.white30, fontSize: 11, letterSpacing: 0.6, fontWeight: FontWeight.w400),
         ),
       ),
