@@ -1,3 +1,4 @@
+// Основной экран чата: интерфейс, отправка сообщений, обработка ответов
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -312,7 +313,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  // === ЗДЕСЬ ДОБАВЛЕНА ЯРКАЯ ТЕСТОВАЯ КНОПКА ===
+  // === ОБНОВЛЕННЫЙ МЕТОД С КНОПКОЙ КОПИРОВАНИЯ ВНУТРИ ПУЗЫРЯ ===
   Widget _buildChatBubble(Map<String, String> msg) {
     final isUser = msg['role'] == 'user';
     return Padding(
@@ -361,27 +362,31 @@ class _ChatScreenState extends State<ChatScreen> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // ЯРКИЙ ТЕСТОВЫЙ БЛОК (КРАСНАЯ КНОПКА)
-                        Container(
-                          color: Colors.red,
-                          padding: const EdgeInsets.all(12),
-                          margin: const EdgeInsets.only(bottom: 8),
-                          child: InkWell(
-                            onTap: () {
-                              _copyToClipboard(msg['content']!, context);
-                              print('КНОПКА НАЖАТА! ТЕКСТ СКОПИРОВАН.');
-                            },
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.copy, color: Colors.white, size: 24),
-                                SizedBox(width: 8),
-                                Text('НАЖМИ МЕНЯ (ТЕСТ)',
-                                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
-                              ],
+                        // КНОПКА КОПИРОВАНИЯ (справа сверху внутри пузыря)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: () => _copyToClipboard(msg['content']!, context),
+                              borderRadius: BorderRadius.circular(6),
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.05),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.copy_rounded, size: 14, color: Colors.white70),
+                                    SizedBox(width: 4),
+                                    Text('Копировать', style: TextStyle(fontSize: 12, color: Colors.white70)),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
+                        const SizedBox(height: 8),
                         // Текст ответа
                         MarkdownBody(
                           data: msg['content']!,
@@ -474,7 +479,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       child: const Center(
         child: Text(
-          '🔥🔥🔥 ТЕСТ ДЕПЛОЯ РАБОТАЕТ 🔥🔥🔥',
+          'Разработчик: Алексей Агафонов',
           style: TextStyle(color: Colors.white30, fontSize: 11, letterSpacing: 0.6, fontWeight: FontWeight.w400),
         ),
       ),
