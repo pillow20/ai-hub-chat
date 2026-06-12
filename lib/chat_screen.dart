@@ -1,14 +1,4 @@
 // Основной экран чата: интерфейс, отправка сообщений, обработка ответов
-// Зависимости:
-// - flutter/material.dart (базовые виджеты и тема)
-// - flutter/services.dart (обработка клавиш и буфер обмена)
-// - http (HTTP-запросы к OpenRouter API)
-// - dart:convert (кодирование/декодирование JSON и UTF-8)
-// - flutter_markdown (рендеринг Markdown-текста)
-// - dart:html (скачивание файлов в веб-версии)
-// - widgets/code_block_builder.dart (кастомный виджет для блоков кода)
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -30,15 +20,12 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _systemPromptController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  // Обработка нажатия клавиши Enter в поле ввода
   late final FocusNode _messageFocusNode = FocusNode(
     onKeyEvent: (node, event) {
       if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.enter) {
-        // Если нажат Shift+Enter, игнорируем (перенос строки)
         if (HardwareKeyboard.instance.isShiftPressed) {
           return KeyEventResult.ignored;
         }
-        // Иначе отправляем сообщение, если не идет загрузка
         if (!_isLoading) _sendMessage();
         return KeyEventResult.handled;
       }
@@ -49,7 +36,6 @@ class _ChatScreenState extends State<ChatScreen> {
   double _temperature = 0.7;
   bool _isLoading = false;
 
-  // Список доступных AI моделей для генерации
   final List<Map<String, String>> _models = [
     {'name': 'GPT OSS 120B (Free)', 'id': 'openai/gpt-oss-120b:free'},
     {'name': 'Gemma 4 31B (Free)', 'id': 'google/gemma-4-31b-it:free'},
@@ -63,14 +49,12 @@ class _ChatScreenState extends State<ChatScreen> {
   late String _selectedModel;
   final List<Map<String, String>> _messages = [];
 
-  // Инициализация состояния: выбираем первую модель из списка по умолчанию
   @override
   void initState() {
     super.initState();
     _selectedModel = _models[0]['id']!;
   }
 
-  // Логика отправки сообщения в OpenRouter API
   Future<void> _sendMessage() async {
     final text = _messageController.text.trim();
     final apiKey = _apiKeyController.text.trim();
@@ -89,7 +73,6 @@ class _ChatScreenState extends State<ChatScreen> {
       return;
     }
 
-    // Добавляем сообщение пользователя в локальный список и очищаем поле ввода
     setState(() {
       _messages.add({'role': 'user', 'content': text});
       _messageController.clear();
@@ -98,14 +81,12 @@ class _ChatScreenState extends State<ChatScreen> {
     _scrollToBottom();
 
     try {
-      // Формируем массив сообщений для API, добавляя системный промпт, если он задан
       final List<Map<String, dynamic>> apiMessages = [];
       if (systemPrompt.isNotEmpty) {
         apiMessages.add({'role': 'system', 'content': systemPrompt});
       }
       apiMessages.addAll(_messages.map((m) => {'role': m['role'], 'content': m['content']}).toList());
 
-      // Выполняем POST-запрос к API OpenRouter
       final response = await http.post(
         Uri.parse('https://openrouter.ai/api/v1/chat/completions'),
         headers: {
@@ -121,7 +102,6 @@ class _ChatScreenState extends State<ChatScreen> {
         }),
       );
 
-      // Обработка успешного ответа или ошибки от API
       if (response.statusCode == 200) {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
         final reply = data['choices'][0]['message']['content'].toString();
@@ -134,7 +114,6 @@ class _ChatScreenState extends State<ChatScreen> {
             }));
       }
     } catch (e) {
-      // Обработка сетевых ошибок
       setState(() => _messages.add({'role': 'assistant', 'content': 'Ошибка соединения: $e'}));
     } finally {
       setState(() => _isLoading = false);
@@ -143,7 +122,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  // Автоматическая прокрутка чата вниз при появлении новых сообщений
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
@@ -229,7 +207,6 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  // Панель настроек: API ключ, системный промпт, выбор модели и температуры
   Widget _buildSettingsPanel() {
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -336,9 +313,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  // Отображение одного сообщения в чате (пузырек)
-  // Для пользователя и ассистента используются разные стили и выравнивание
-  // ДОБАВЛЕНА: Кнопка копирования всего ответа модели
+  // === ОБНОВЛЕННЫЙ МЕТОД С КНОПКОЙ КОПИРОВАНИЯ ВНУТРИ ПУЗЫРЯ ===
   Widget _buildChatBubble(Map<String, String> msg) {
     final isUser = msg['role'] == 'user';
     return Padding(
@@ -348,40 +323,20 @@ class _ChatScreenState extends State<ChatScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (!isUser) ...[
-            // Колонка с иконкой робота и кнопкой копирования
-            Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF161618),
-                    shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xFF242427)),
-                  ),
-                  child: const Icon(Icons.smart_toy_outlined, size: 16, color: Color(0xFF9D4EDD)),
-                ),
-                // Кнопка копирования всего ответа
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF161618),
-                    shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xFF242427)),
-                  ),
-                  child: InkWell(
-                    onTap: () => _copyToClipboard(msg['content']!, context),
-                    borderRadius: BorderRadius.circular(20),
-                    child: const Icon(Icons.copy_rounded, size: 14, color: Colors.grey),
-                  ),
-                ),
-              ],
+            Container(
+              margin: const EdgeInsets.only(top: 4, right: 8),
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: const Color(0xFF161618),
+                shape: BoxShape.circle,
+                border: Border.all(color: const Color(0xFF242427)),
+              ),
+              child: const Icon(Icons.smart_toy_outlined, size: 16, color: Color(0xFF9D4EDD)),
             ),
-            const SizedBox(width: 8),
           ],
           Flexible(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.all(12),
               constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.78),
               decoration: BoxDecoration(
                 color: isUser ? const Color(0xFF3A1C71) : const Color(0xFF161618),
@@ -404,37 +359,68 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               child: isUser
                   ? Text(msg['content']!, style: const TextStyle(color: Color(0xFFF5F5F7), fontSize: 15, height: 1.35))
-                  : MarkdownBody(
-                      data: msg['content']!,
-                      selectable: true,
-                      onTapLink: (text, href, title) {
-                        if (href != null) {
-                          html.window.open(href, '_blank');
-                        }
-                      },
-                      builders: {
-                        'pre': CodeBlockBuilder(
-                          onDownload: (text, ext) => _downloadFile(text, ext, context),
-                          onCopy: (text) => _copyToClipboard(text, context),
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // КНОПКА КОПИРОВАНИЯ (справа сверху внутри пузыря)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: () => _copyToClipboard(msg['content']!, context),
+                              borderRadius: BorderRadius.circular(6),
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.05),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.copy_rounded, size: 14, color: Colors.white70),
+                                    SizedBox(width: 4),
+                                    Text('Копировать', style: TextStyle(fontSize: 12, color: Colors.white70)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      },
-                      styleSheet: MarkdownStyleSheet(
-                        p: const TextStyle(color: Color(0xFFE4E4E7), fontSize: 15, height: 1.45),
-                        code: const TextStyle(
-                          backgroundColor: Color(0xFF28282B), 
-                          fontFamily: 'monospace',
-                          fontSize: 13,
-                          color: Color(0xFFF43F5E),
+                        const SizedBox(height: 8),
+                        // Текст ответа
+                        MarkdownBody(
+                          data: msg['content']!,
+                          selectable: true,
+                          onTapLink: (text, href, title) {
+                            if (href != null) {
+                              html.window.open(href, '_blank');
+                            }
+                          },
+                          builders: {
+                            'pre': CodeBlockBuilder(
+                              onDownload: (text, ext) => _downloadFile(text, ext, context),
+                              onCopy: (text) => _copyToClipboard(text, context),
+                            ),
+                          },
+                          styleSheet: MarkdownStyleSheet(
+                            p: const TextStyle(color: Color(0xFFE4E4E7), fontSize: 15, height: 1.45),
+                            code: const TextStyle(
+                              backgroundColor: Color(0xFF28282B), 
+                              fontFamily: 'monospace',
+                              fontSize: 13,
+                              color: Color(0xFFF43F5E),
+                            ),
+                            a: const TextStyle(color: Color(0xFF9D4EDD), decoration: TextDecoration.underline),
+                            listBullet: const TextStyle(color: Color(0xFF9D4EDD)),
+                            blockquoteDecoration: BoxDecoration(
+                              color: const Color(0xFF3E2723),
+                              border: const Border(left: BorderSide(color: Color(0xFF9D4EDD), width: 4)),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            blockquote: const TextStyle(color: Colors.yellow, fontStyle: FontStyle.italic),
+                          ),
                         ),
-                        a: const TextStyle(color: Color(0xFF9D4EDD), decoration: TextDecoration.underline),
-                        listBullet: const TextStyle(color: Color(0xFF9D4EDD)),
-                        blockquoteDecoration: BoxDecoration(
-                          color: const Color(0xFF3E2723),
-                          border: const Border(left: BorderSide(color: Color(0xFF9D4EDD), width: 4)),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        blockquote: const TextStyle(color: Colors.yellow, fontStyle: FontStyle.italic),
-                      ),
+                      ],
                     ),
             ),
           ),
@@ -443,7 +429,6 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  // Панель ввода текста сообщения и кнопка отправки
   Widget _buildInputPanel() {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
@@ -501,10 +486,8 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  // Логика скачивания файла с кодом через браузер (работает в Web)
   void _downloadFile(String text, String extension, BuildContext context) {
     try {
-      // Нормализация расширений файлов для корректного сохранения
       String ext = extension.toLowerCase();
       if (ext == 'code' || ext == 'text') ext = 'txt';
       if (ext == 'python') ext = 'py';
@@ -518,7 +501,6 @@ class _ChatScreenState extends State<ChatScreen> {
       final blob = html.Blob([bytes], 'text/plain;charset=utf-8');
       final url = html.Url.createObjectUrlFromBlob(blob);
 
-      // Программный клик по скрытой ссылке для запуска скачивания
       html.AnchorElement(href: url)
         ..setAttribute("download", filename)
         ..click();
@@ -535,7 +517,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  // Копирование текста в буфер обмена с показом уведомления
   void _copyToClipboard(String text, BuildContext context) {
     Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context).showSnackBar(
