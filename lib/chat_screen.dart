@@ -40,7 +40,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<Map<String, String>> _models = [
     {'name': 'GPT OSS 120B (Free)', 'id': 'openai/gpt-oss-120b:free'},
     {'name': 'Gemma 4 31B (Free)', 'id': 'google/gemma-4-31b-it:free'},
-    {'name': 'Z.Ai (Free)', 'id': 'z-ai/glm-4.5-air:free'},
+    {'name': 'Free Modele (Free)', 'id': 'openrouter/free'},
     {'name': 'Nvidia Nemotron 3 (Free)', 'id': 'nvidia/nemotron-3-nano-30b-a3b:free'},
     {'name': 'Meta Llama 3.3 70B', 'id': 'meta-llama/llama-3.3-70b-instruct:free'},
     {'name': 'Qwen3 Next 80B', 'id': 'qwen/qwen3-next-80b-a3b-instruct:free'},
