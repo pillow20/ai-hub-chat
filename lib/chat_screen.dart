@@ -33,8 +33,9 @@ class _ChatScreenState extends State<ChatScreen> {
   );
 
   double _temperature = 0.7;
+  int _maxTokens = 4000; // По умолчанию 4000, максимум теперь 8000
   bool _isLoading = false;
-  bool _autoFocus = true; // НОВАЯ ПЕРЕМЕННАЯ ДЛЯ АВТОФОКУСА
+  bool _autoFocus = true;
 
   final List<Map<String, String>> _models = [
     {'name': 'GPT OSS 120B (Free)', 'id': 'openai/gpt-oss-120b:free'},
@@ -98,6 +99,7 @@ class _ChatScreenState extends State<ChatScreen> {
         body: jsonEncode({
           'model': _selectedModel,
           'temperature': _temperature,
+          'max_tokens': _maxTokens, // Передаем лимит токенов в API
           'messages': apiMessages,
         }),
       );
@@ -118,7 +120,6 @@ class _ChatScreenState extends State<ChatScreen> {
     } finally {
       setState(() => _isLoading = false);
       _scrollToBottom();
-      // ИЗМЕНЕНО: Автофокус только если включен переключатель
       if (_autoFocus) {
         _messageFocusNode.requestFocus();
       }
@@ -256,6 +257,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   const SizedBox(height: 14),
+                  
+                  // 1. Модель и Креативность в одну строку
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -266,7 +269,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           alignment: Alignment.bottomCenter,
                           dropdownColor: const Color(0xFF1E1E22),
                           decoration: const InputDecoration(
-                            labelText: 'Модель генерации',
+                            labelText: 'Модель',
                             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                           ),
                           items: _models
@@ -289,8 +292,8 @@ class _ChatScreenState extends State<ChatScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text('  Креативность', style: TextStyle(fontSize: 12, color: Colors.grey)),
-                                Text('${_temperature.toStringAsFixed(1)} ', style: const TextStyle(fontSize: 12, color: Color(0xFF9D4EDD), fontWeight: FontWeight.bold)),
+                                const Text('Креативность', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                                Text('${_temperature.toStringAsFixed(1)}', style: const TextStyle(fontSize: 12, color: Color(0xFF9D4EDD), fontWeight: FontWeight.bold)),
                               ],
                             ),
                             Slider(
@@ -307,8 +310,35 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ],
                   ),
+                  
                   const SizedBox(height: 16),
-                  // НОВЫЙ ПЕРЕКЛЮЧАТЕЛЬ АВТОФОКУСА
+                  
+                  // 2. Ползунок длины ответа СТРОГО ПОД креативностью (на всю ширину)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Длина ответа (макс. токенов)', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                          Text('$_maxTokens', style: const TextStyle(fontSize: 12, color: Color(0xFF9D4EDD), fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                      Slider(
+                        value: _maxTokens.toDouble(),
+                        min: 500.0,
+                        max: 8000.0, // <-- ИЗМЕНЕНО НА 8000
+                        divisions: 75, // Шаги по 100 токенов
+                        activeColor: const Color(0xFF9D4EDD),
+                        inactiveColor: const Color(0xFF2C2C35),
+                        onChanged: (v) => setState(() => _maxTokens = v.toInt()),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+                  
+                  // 3. Переключатель автофокуса
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
