@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert'; 
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'dart:html' as html;
-import 'widgets/code_block_builder.dart';
+import 'widgets/code_block_builder.dart'; 
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
