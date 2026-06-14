@@ -34,6 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   double _temperature = 0.7;
   bool _isLoading = false;
+  bool _autoFocus = true; // НОВАЯ ПЕРЕМЕННАЯ ДЛЯ АВТОФОКУСА
 
   final List<Map<String, String>> _models = [
     {'name': 'GPT OSS 120B (Free)', 'id': 'openai/gpt-oss-120b:free'},
@@ -117,7 +118,10 @@ class _ChatScreenState extends State<ChatScreen> {
     } finally {
       setState(() => _isLoading = false);
       _scrollToBottom();
-      _messageFocusNode.requestFocus();
+      // ИЗМЕНЕНО: Автофокус только если включен переключатель
+      if (_autoFocus) {
+        _messageFocusNode.requestFocus();
+      }
     }
   }
 
@@ -303,6 +307,22 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 16),
+                  // НОВЫЙ ПЕРЕКЛЮЧАТЕЛЬ АВТОФОКУСА
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Автофокус на поле ввода',
+                        style: TextStyle(fontSize: 13, color: Colors.white70),
+                      ),
+                      Switch(
+                        value: _autoFocus,
+                        activeColor: const Color(0xFF9D4EDD),
+                        onChanged: (value) => setState(() => _autoFocus = value),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -312,7 +332,6 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  // === ОБНОВЛЕННЫЙ МЕТОД: КНОПКА В ЛЕВОМ НИЖНЕМ УГЛУ, ТОЛЬКО ИКОНКА ===
   Widget _buildChatBubble(Map<String, String> msg) {
     final isUser = msg['role'] == 'user';
     return Padding(
@@ -361,7 +380,6 @@ class _ChatScreenState extends State<ChatScreen> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // 1. Текст ответа (сверху)
                         MarkdownBody(
                           data: msg['content']!,
                           selectable: true,
@@ -395,7 +413,6 @@ class _ChatScreenState extends State<ChatScreen> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        // 2. КНОПКА КОПИРОВАНИЯ (левый нижний угол, только иконка)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
