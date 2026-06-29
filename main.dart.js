@@ -28542,7 +28542,7 @@ $S:2}
 A.axR.prototype={
 $1(a){var s=A.dk().b
 s=s==null?null:s.canvasKitBaseUrl
-return(s==null?"https://www.gstatic.com/flutter-canvaskit/77e2e94772b6eb43759e34ed1ad7da4674e19cab/":s)+a},
+return(s==null?"https://www.gstatic.com/flutter-canvaskit/a10d8ac38de835021c8d2f920dbf50a920ccc030/":s)+a},
 $S:40}
 A.O5.prototype={
 gB(a){var s=this.a
