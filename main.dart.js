@@ -94120,7 +94120,7 @@ N(a){var s=null
 return new A.B3(B.Ea,"AI Chat",A.vV(B.an,B.cO,B.Ek,B.cN,A.aFi(new A.ha(4,A.fq(12),B.m),s,s,new A.ha(4,A.fq(12),B.BF),B.jo,!0,new A.ha(4,A.fq(12),B.BE),B.Uv),B.n5,B.jw,s),!1,s)}}
 A.yH.prototype={
 ao(){var s=$.aC(),r=t.N,q=t.m0
-return new A.EQ(new A.ri(B.ii,s),new A.ri(B.ii,s),new A.ri(B.ii,s),A.vj(0),A.b([A.ap(["name","GPT OSS 120B (Free)","id","openai/gpt-oss-120b:free"],r,r),A.ap(["name","Gemma 4 31B (Free)","id","google/gemma-4-31b-it:free"],r,r),A.ap(["name","Free Models (Free)","id","openrouter/free"],r,r),A.ap(["name","Nvidia Nemotron 3 (Free)","id","nvidia/nemotron-3-nano-30b-a3b:free"],r,r),A.ap(["name","Meta Llama 3.3 70B","id","meta-llama/llama-3.3-70b-instruct:free"],r,r),A.ap(["name","Qwen3 Next 80B","id","qwen/qwen3-next-80b-a3b-instruct:free"],r,r),A.ap(["name","Poolside Laguna M1","id","poolside/laguna-m.1:free"],r,r)],q),A.b([],q))}}
+return new A.EQ(new A.ri(B.ii,s),new A.ri(B.ii,s),new A.ri(B.ii,s),A.vj(0),A.b([A.ap(["name","GPT OSS 120B (Free)","id","openai/gpt-oss-120b:free"],r,r),A.ap(["name","Gemma 4 31B (Free)","id","google/gemma-4-31b-it:free"],r,r),A.ap(["name","Free Models (Free)","id","openrouter/free"],r,r),A.ap(["name","Nvidia Nemotron 3 (Free)","id","nvidia/nemotron-3-nano-30b-a3b:free"],r,r),A.ap(["name","Meta Llama 3.3 70B","id","meta-llama/llama-3.3-70b-instruct:free"],r,r),A.ap(["name","Qwen3 Next 80B","id","qwen/qwen3-next-80b-a3b-instruct:free"],r,r),A.ap(["name","Gemma 4 26B A4B","id","google/gemma-4-26b-a4b-it:free"],r,r),A.ap(["name","Poolside Laguna M1","id","poolside/laguna-m.1:free"],r,r)],q),A.b([],q))}}
 A.EQ.prototype={
 gG7(){var s=this.w
 return s===$?this.w=A.lf(!0,null,!0,!0,null,new A.aoG(this),!1):s},
