@@ -44,6 +44,7 @@ class _ChatScreenState extends State<ChatScreen> {
     {'name': 'Nvidia Nemotron 3 (Free)', 'id': 'nvidia/nemotron-3-nano-30b-a3b:free'},
     {'name': 'Meta Llama 3.3 70B', 'id': 'meta-llama/llama-3.3-70b-instruct:free'},
     {'name': 'Qwen3 Next 80B', 'id': 'qwen/qwen3-next-80b-a3b-instruct:free'},
+    {'name': 'Gemma 4 26B A4B','id': 'google/gemma-4-26b-a4b-it:free'},
     {'name': 'Poolside Laguna M1', 'id': 'poolside/laguna-m.1:free'},
   ];
 
